@@ -40,7 +40,7 @@ REM Copy native libraries into place.
 echo Copying native libraries into place.
 
 copy %pathtome%..\..\native_library\win\%projectName%\Release\%projectName%.dll %pathtome%platforms\win\release
-copy %pathtome%..\..\native_library\win\%projectName%\Release\%projectName%.dll %pathtome%platforms\win\debug
+copy %pathtome%..\..\native_library\win\%projectName%\Debug\%projectName%.dll %pathtome%platforms\win\debug
 
 REM Run the build command.
 echo Building Release.

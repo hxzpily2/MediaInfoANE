@@ -474,13 +474,7 @@ extern "C" {
         size_t convertedChars = 0;
         mbstowcs_s(&convertedChars, fileName, newsize, orig, _TRUNCATE);
 #else
-        // GCC
-        //wprintf(fileName, newsize, L"%ls (wchar_t *)", orig);
-        //mbstowcs(&convertedChars, fileName, newsize, orig, false);
-        
         mbstowcs(fileName , orig, newsize);
-        
-        
 #endif
         
         using namespace std;

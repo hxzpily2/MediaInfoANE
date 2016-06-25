@@ -5,9 +5,9 @@
 	<copyright>This work is licensed under The MIT License (MIT), Copyright 2016 Tua Rua Ltd.</copyright>
 	<versionNumber>0.0.1</versionNumber>
 	<platforms>
-	<platform name="MacOS-x86-64">
+	<platform name="Windows-x86">
 		<applicationDeployment>
-			<nativeLibrary>MediaInfoANE.framework</nativeLibrary>
+			<nativeLibrary>MediaInfoANE.dll</nativeLibrary>
 			<initializer>TRMIAExtInizer</initializer>
 			<finalizer>TRMIAExtFinizer</finalizer>
 		</applicationDeployment>
