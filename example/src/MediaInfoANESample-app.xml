@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
-<application xmlns="http://ns.adobe.com/air/application/21.0">
+<application xmlns="http://ns.adobe.com/air/application/22.0">
 
 <!-- Adobe AIR Application Descriptor File Template.
 
@@ -114,8 +114,10 @@
 		<!-- <softKeyboardBehavior></softKeyboardBehavior> -->
 
 		<!-- Display Resolution for the app (either "standard" or "high"). Optional, OSX-only. Default "standard" -->
-		<!-- <requestedDisplayResolution></requestedDisplayResolution> -->
-	<autoOrients>false</autoOrients>
+		<requestedDisplayResolution>high</requestedDisplayResolution>
+	<depthAndStencil>true</depthAndStencil>
+		<renderMode>direct</renderMode>
+		<autoOrients>false</autoOrients>
         <fullScreen>false</fullScreen>
         <visible>true</visible>
     </initialWindow>
@@ -125,7 +127,7 @@
 	<!-- devices supported by AIR. If you wish to restrict deployment -->
 	<!-- (i.e., to only mobile devices) then add this element and list -->
 	<!-- only the profiles which your application does support. -->
-	<!-- <supportedProfiles>desktop extendedDesktop mobileDevice extendedMobileDevice</supportedProfiles> -->
+	<supportedProfiles>extendedDesktop</supportedProfiles>
 
 	<!-- Languages supported by application -->
 	<!-- Only these languages can be specified -->
