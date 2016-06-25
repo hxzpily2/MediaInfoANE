@@ -1,0 +1,6 @@
+framework module MediaInfoANE {
+  umbrella header "MediaInfoANE.h"
+
+  export *
+  module * { export * }
+}

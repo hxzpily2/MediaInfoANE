@@ -1,11 +1,14 @@
 #ifdef _WIN32
 #include "win/MediaInfoANE.h"
 #else
-#include "mac/MediaInfoANE.h"
 #define __ASSERT_MACROS_DEFINE_VERSIONS_WITHOUT_UNDERSCORES 0
 #define BOOST_ASIO_SEPARATE_COMPILATION 0
+#define _UNICODE 1
+#include "mac/MediaInfoANE.h"
 #endif
 
+#include <wchar.h>
+#include <cstring>
 #include <stdint.h>
 #include <iterator>
 #include <sstream>
@@ -36,7 +39,7 @@
 bool isSupportedInOS = true;
 #else
 #include <Adobe AIR/Adobe AIR.h>
-bool isSupportedInOS = false;
+bool isSupportedInOS = true;
 #endif
 
 #include "ANEhelper.h"
@@ -302,7 +305,7 @@ extern "C" {
 		}
 
 		uint32_t numTextStreams = boost::numeric_cast<uint32_t>(MI.Count_Get(Stream_Text, -1));
-		for (i = 0; i < numAudioStreams; ++i) {
+		for (i = 0; i < numTextStreams; ++i) {
 			TextStream textStream;
 			textStream.codecId = wcharToString(MI.Get(Stream_Text, i, __T("CodecID"), Info_Text, Info_Name).c_str());
 			textStream.codecName = wcharToString(MI.Get(Stream_Text, i, __T("Codec/Info"), Info_Text, Info_Name).c_str());
@@ -467,9 +470,17 @@ extern "C" {
 		const char *orig = getStringFromFREObject(argv[0]).c_str();
 		size_t newsize = strlen(orig) + 1;
 		wchar_t *fileName = new wchar_t[newsize];
-		size_t convertedChars = 0;
-		mbstowcs_s(&convertedChars, fileName, newsize, orig, _TRUNCATE);
-
+		//size_t convertedChars = 0;
+        //mbstowcs_s(&convertedChars, fileName, newsize, orig, _TRUNCATE);
+        
+#ifdef _WIN32
+        // Visual Studio
+        wsprintf(fileName, newsize, L"%S (wchar_t *)", orig);
+#else
+        // GCC
+        wprintf(fileName, newsize, L"%ls (wchar_t *)", orig);
+#endif
+        
 		infoContext.fileName = fileName;
 		threads[0] = boost::move(createThread(&threadFileInfo, 1));
 		return getFREObjectFromBool(true);
