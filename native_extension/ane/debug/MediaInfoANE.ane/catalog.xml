@@ -2,8 +2,8 @@
 <swc xmlns="http://www.adobe.com/flash/swccatalog/9">
     <versions>
         <swc version="1.2"/>
-        <flex version="4.7.0" build="354174" minimumSupportedVersion="3.0.0"/>
-        <compiler name="ActionScript Compiler" version="2.0.0" build="354174"/>
+        <flex version="4.7.0" build="354188" minimumSupportedVersion="3.0.0"/>
+        <compiler name="ActionScript Compiler" version="2.0.0" build="354188"/>
     </versions>
     <features>
         <feature-script-deps/>
@@ -65,7 +65,7 @@
                 <dep id="flash.events:Event" type="i"/>
             </script>
             <digests>
-                <digest type="SHA-256" signed="false" value="49c32994332cf8df65363b4b60bb79252ff678ffaa8caaf1f916ab3660956187"/>
+                <digest type="SHA-256" signed="false" value="07e4f603673ab9b404b5158b7c4280779c8171d154564cd7e3be7893dec2893f"/>
             </digests>
         </library>
     </libraries>

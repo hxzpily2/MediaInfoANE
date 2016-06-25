@@ -238,6 +238,7 @@ extern "C" {
 		MediaInfo MI;
 		MI.Open(infoContext.fileName);
 		fileContext.name = wcharToString(MI.Get(Stream_General, 0, __T("CompleteName"), Info_Text, Info_Name).c_str());
+        
 		fileContext.format = wcharToString(MI.Get(Stream_General, 0, __T("Format"), Info_Text, Info_Name).c_str());
 		fileContext.profile = wcharToString(MI.Get(Stream_General, 0, __T("Format_Profile"), Info_Text, Info_Name).c_str());
 		fileContext.codecId = wcharToString(MI.Get(Stream_General, 0, __T("CodecID"), Info_Text, Info_Name).c_str());
@@ -323,8 +324,6 @@ extern "C" {
 		
 		mutex.unlock();
 	}
-
-
 
 	FREObject getInfo(FREContext ctx, void* funcData, uint32_t argc, FREObject argv[]) {
 		FREObject ret = NULL;
@@ -470,17 +469,21 @@ extern "C" {
 		const char *orig = getStringFromFREObject(argv[0]).c_str();
 		size_t newsize = strlen(orig) + 1;
 		wchar_t *fileName = new wchar_t[newsize];
-		//size_t convertedChars = 0;
-        //mbstowcs_s(&convertedChars, fileName, newsize, orig, _TRUNCATE);
-        
+		
 #ifdef _WIN32
-        // Visual Studio
-        wsprintf(fileName, newsize, L"%S (wchar_t *)", orig);
+        size_t convertedChars = 0;
+        mbstowcs_s(&convertedChars, fileName, newsize, orig, _TRUNCATE);
 #else
         // GCC
-        wprintf(fileName, newsize, L"%ls (wchar_t *)", orig);
+        //wprintf(fileName, newsize, L"%ls (wchar_t *)", orig);
+        //mbstowcs(&convertedChars, fileName, newsize, orig, false);
+        
+        mbstowcs(fileName , orig, newsize);
+        
+        
 #endif
         
+        using namespace std;
 		infoContext.fileName = fileName;
 		threads[0] = boost::move(createThread(&threadFileInfo, 1));
 		return getFREObjectFromBool(true);
@@ -492,8 +495,8 @@ extern "C" {
 	void contextInitializer(void* extData, const uint8_t* ctxType, FREContext ctx, uint32_t* numFunctionsToSet, const FRENamedFunction** functionsToSet) {
 		static FRENamedFunction extensionFunctions[] = {
 			{ (const uint8_t*) "isSupported",NULL, &isSupported}
-			,{(const uint8_t*) "triggerGetInfo",NULL, &triggerGetInfo }
-			,{ (const uint8_t*) "getInfo",NULL, &getInfo }
+			,{(const uint8_t*) "triggerGetInfo",NULL, &triggerGetInfo}
+			,{(const uint8_t*) "getInfo",NULL, &getInfo}
 			,{(const uint8_t*) "getVersion",NULL, &getLibVersion}
 		};
 
