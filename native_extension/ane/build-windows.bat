@@ -42,6 +42,9 @@ echo Copying native libraries into place.
 copy %pathtome%..\..\native_library\win\%projectName%\Release\%projectName%.dll %pathtome%platforms\win\release
 copy %pathtome%..\..\native_library\win\%projectName%\Debug\%projectName%.dll %pathtome%platforms\win\debug
 
+copy %pathtome%..\..\native_library\win\%projectName%\Release\%projectName%.dll %pathtome%dll\release
+copy %pathtome%..\..\native_library\win\%projectName%\Debug\%projectName%.dll %pathtome%dll\debug
+
 REM Run the build command.
 echo Building Release.
 call adt.bat -package -target ane %pathtome%%projectName%.ane %pathtome%extension_win.xml -swc %pathtome%%projectName%.swc -platform Windows-x86 -C %pathtome%platforms\win\release %projectName%.dll library.swf
