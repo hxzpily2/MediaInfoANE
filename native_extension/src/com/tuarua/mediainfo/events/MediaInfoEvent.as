@@ -2,6 +2,7 @@ package com.tuarua.mediainfo.events {
 	import flash.events.Event;
 	public class MediaInfoEvent extends Event {
 		public static const ON_FILE_INFO:String = "onMediainfoFileInfo";
+		public static const ON_FILE_INFO_ITEM:String = "onMediainfoFileInfoItem";
 		public var params:Object;
 		public function MediaInfoEvent(type:String, _params:Object=null, bubbles:Boolean=false, cancelable:Boolean=false) {
 			super(type, bubbles, cancelable);

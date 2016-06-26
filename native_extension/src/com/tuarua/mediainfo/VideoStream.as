@@ -3,6 +3,7 @@ package com.tuarua.mediainfo {
 	public class VideoStream extends Object {
 		public var id:uint;
 		public var aspectRatio:Number;
+		public var aspectRatioAsString:String;
 		public var bitDepth:uint;
 		public var bitrate:uint;
 		public var bitrateMode:String;

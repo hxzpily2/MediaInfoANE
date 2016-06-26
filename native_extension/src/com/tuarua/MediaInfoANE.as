@@ -1,8 +1,9 @@
 package com.tuarua {
+	import com.tuarua.mediainfo.events.MediaInfoEvent;
+	
 	import flash.events.EventDispatcher;
 	import flash.events.StatusEvent;
 	import flash.external.ExtensionContext;
-	import com.tuarua.mediainfo.events.MediaInfoEvent;
 
 	public class MediaInfoANE extends EventDispatcher {
 		private var extensionContext:ExtensionContext;
@@ -45,13 +46,26 @@ package com.tuarua {
 		 * 
 		 */		
 		public function getInfo(fileName:String):void {
-			extensionContext.call("triggerGetInfo",fileName); 
+			extensionContext.call("triggerGetInfo",fileName);
+			
+		}
+		/**
+		 * 
+		 * @return 
+		 * 
+		 */		
+		public function getInfoItem(fileName:String,type:String,item:String):void {
+			extensionContext.call("triggerGetInfoItem",fileName,type,item);
 		}
 		
+		/**
+		 * 
+		 * @return 
+		 * 
+		 */	
 		public function getVersion():String {
 			return extensionContext.call("getVersion") as String; 
 		}
-		
 		
 		/**
 		 *@private 
@@ -67,6 +81,9 @@ package com.tuarua {
 					break;
 				case "ON_FILE_INFO":
 					this.dispatchEvent(new MediaInfoEvent(MediaInfoEvent.ON_FILE_INFO,{data:extensionContext.call("getInfo") as MediaInfo}));
+					break;
+				case "ON_FILE_INFO_ITEM":
+					this.dispatchEvent(new MediaInfoEvent(MediaInfoEvent.ON_FILE_INFO_ITEM,{data:event.code}));
 					break;
 			}
 		}

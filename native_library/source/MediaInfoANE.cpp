@@ -32,8 +32,6 @@
 #include <boost/algorithm/string.hpp>
 #include <boost/thread.hpp>
 
-#include "json.hpp"
-
 #ifdef _WIN32
 #include "FlashRuntimeExtensions.h"
 bool isSupportedInOS = true;
@@ -153,6 +151,7 @@ extern "C" {
 		uint32_t width;
 		uint32_t height;
 		double aspectRatio;
+		std::string aspectRatioAsString;
 		std::string framerateMode;
 		double framerate;
 		double bits;
@@ -219,12 +218,51 @@ extern "C" {
 
 	typedef struct {
 		wchar_t *fileName;
-	}Probe;
-	Probe infoContext;
+		wchar_t *item;
+		std::string type;
+	}InfoContext;
+	InfoContext infoContext;
 
 	FREObject getLibVersion(FREContext ctx, void* funcData, uint32_t argc, FREObject argv[]) {
 		MediaInfo MI;
-		return getFREObjectFromString(MI.Option(__T("Info_Version"), __T("0.7.0.0;MediaInfoDLL_Example_MSVC;0.7.0.0")).c_str());
+		return getFREObjectFromString(MI.Option(__T("Info_Version"), __T("0.7.0.0;MediaInfoANE;0.7.0.0")).c_str());
+	}
+
+	void threadFileInfoItem(int p) {
+		boost::mutex mutex;
+		using boost::this_thread::get_id;
+		using namespace std;
+		mutex.lock();
+
+		enum stream_t type;
+		if (infoContext.type == "General")
+			type = Stream_General;
+		else if (infoContext.type == "Video")
+			type = Stream_Video;
+		else if (infoContext.type == "Audio")
+			type = Stream_Audio;
+		else if (infoContext.type == "Text")
+			type = Stream_Text;
+		else if (infoContext.type == "Other")
+			type = Stream_Other;
+		else if (infoContext.type == "Image")
+			type = Stream_Image;
+		else if (infoContext.type == "Menu")
+			type = Stream_Menu;
+		else if (infoContext.type == "Max")
+			type = Stream_Max;
+		else
+			type = Stream_General;
+
+		MediaInfo MI;
+		MI.Open(infoContext.fileName);
+		String sItem = infoContext.item;
+		string ret = wcharToString(MI.Get(type, 0, sItem, Info_Text, Info_Name).c_str());
+
+		MI.Close();
+		FREDispatchStatusEventAsync(dllContext, (uint8_t*)ret.c_str(), (const uint8_t*) "ON_FILE_INFO_ITEM");
+
+		mutex.unlock();
 	}
 
 	void threadFileInfo(int p) {
@@ -253,6 +291,7 @@ extern "C" {
 			VideoStream videoStream;
 			videoStream.id = wcharToUint32(MI.Get(Stream_Video, i, __T("ID"), Info_Text, Info_Name).c_str());
 			videoStream.aspectRatio = wcharToDouble(MI.Get(Stream_Video, i, __T("DisplayAspectRatio"), Info_Text, Info_Name).c_str());
+			videoStream.aspectRatioAsString = wcharToString(MI.Get(Stream_Video, i, __T("DisplayAspectRatio/String"), Info_Text, Info_Name).c_str());
 			videoStream.bitDepth = wcharToUint32(MI.Get(Stream_Video, i, __T("BitDepth"), Info_Text, Info_Name).c_str());
 			videoStream.bitrate = wcharToUint32(MI.Get(Stream_Video, i, __T("BitRate"), Info_Text, Info_Name).c_str());
 			videoStream.bitrateMode = wcharToString(MI.Get(Stream_Video, i, __T("BitRate_Mode/String"), Info_Text, Info_Name).c_str());
@@ -358,6 +397,7 @@ extern "C" {
 
 			FRESetObjectProperty(objStream, (const uint8_t*)"id", getFREObjectFromUint32(i->id), NULL);
 			FRESetObjectProperty(objStream, (const uint8_t*)"aspectRatio", getFREObjectFromDouble(i->aspectRatio), NULL);
+			FRESetObjectProperty(objStream, (const uint8_t*)"aspectRatioAsString", getFREObjectFromString(i->aspectRatioAsString), NULL);
 			FRESetObjectProperty(objStream, (const uint8_t*)"bitDepth", getFREObjectFromUint32(i->bitDepth), NULL);
 			FRESetObjectProperty(objStream, (const uint8_t*)"bitrate", getFREObjectFromUint32(i->bitrate), NULL);
 			FRESetObjectProperty(objStream, (const uint8_t*)"maxBitrate", getFREObjectFromUint32(i->maxBitrate), NULL);
@@ -471,6 +511,105 @@ extern "C" {
 
 		return ret;
 	}
+
+	char *toCString(std::string str) {
+		char *cStr = new char[str.length() + 1];
+		std::strcpy(cStr, str.c_str());
+		return cStr;
+	}
+/*
+	FREObject getInfoItem(FREContext ctx, void* funcData, uint32_t argc, FREObject argv[]) {
+		using namespace std;
+		string itemStr = getStringFromFREObject(argv[2]);
+		string fileNameStr = getStringFromFREObject(argv[0]);
+
+		char * itemCStr = toCString(itemStr);
+		char * fileNameCStr = toCString(fileNameStr);
+
+		const char * itemChar = (const char *)itemCStr;
+		const char * fileNameChar = (const char *)fileNameCStr;
+
+		size_t sizeFileName = strlen(fileNameChar) + 1;
+		size_t sizeItem = strlen(itemChar) + 1;
+		wchar_t *fileName = new wchar_t[sizeFileName];
+		wchar_t *item = new wchar_t[sizeItem];
+
+#ifdef _WIN32
+		size_t numFilenameChars = 0;
+		size_t numItemChars = 0;
+		mbstowcs_s(&numFilenameChars, fileName, sizeFileName, fileNameChar, _TRUNCATE);
+		mbstowcs_s(&numItemChars, item, sizeItem, itemChar, _TRUNCATE);
+#else
+		mbstowcs(fileName, fileNameChar, sizeFileName);
+		mbstowcs(item, itemChar, sizeItem);
+#endif
+		infoContext.fileName = fileName;
+
+		string typeStr = getStringFromFREObject(argv[1]);
+		
+		enum stream_t type;
+		if (typeStr == "General")
+			type = Stream_General;
+		else if (typeStr == "Video")
+			type = Stream_Video;
+		else if (typeStr == "Audio")
+			type = Stream_Audio;
+		else if (typeStr == "Text")
+			type = Stream_Text;
+		else if (typeStr == "Other")
+			type = Stream_Other;
+		else if (typeStr == "Image")
+			type = Stream_Image;
+		else if (typeStr == "Menu")
+			type = Stream_Menu;
+		else if (typeStr == "Max")
+			type = Stream_Max;
+		else
+			type = Stream_General;
+
+		MediaInfo MI;
+		MI.Open(infoContext.fileName);
+		String sItem = item;
+		string ret = wcharToString(MI.Get(type, 0, sItem, Info_Text, Info_Name).c_str());
+
+		MI.Close();
+		return getFREObjectFromString(ret);
+	}
+	*/
+	FREObject triggerGetInfoItem(FREContext ctx, void* funcData, uint32_t argc, FREObject argv[]) {
+		using namespace std;
+		string itemStr = getStringFromFREObject(argv[2]);
+		string fileNameStr = getStringFromFREObject(argv[0]);
+
+		char * itemCStr = toCString(itemStr);
+		char * fileNameCStr = toCString(fileNameStr);
+
+		const char * itemChar = (const char *)itemCStr;
+		const char * fileNameChar = (const char *)fileNameCStr;
+
+		size_t sizeFileName = strlen(fileNameChar) + 1;
+		size_t sizeItem = strlen(itemChar) + 1;
+		wchar_t *fileName = new wchar_t[sizeFileName];
+		wchar_t *item = new wchar_t[sizeItem];
+
+#ifdef _WIN32
+		size_t numFilenameChars = 0;
+		size_t numItemChars = 0;
+		mbstowcs_s(&numFilenameChars, fileName, sizeFileName, fileNameChar, _TRUNCATE);
+		mbstowcs_s(&numItemChars, item, sizeItem, itemChar, _TRUNCATE);
+#else
+		mbstowcs(fileName, fileNameChar, sizeFileName);
+		mbstowcs(item, itemChar, sizeItem);
+#endif
+		infoContext.fileName = fileName;
+		infoContext.item = item;
+		infoContext.type = getStringFromFREObject(argv[1]);
+
+		threads[0] = boost::move(createThread(&threadFileInfoItem, 1));
+
+		return getFREObjectFromBool(true);
+
+	}
 	FREObject triggerGetInfo(FREContext ctx, void* funcData, uint32_t argc, FREObject argv[]) {
 		const char *orig = getStringFromFREObject(argv[0]).c_str();
 		size_t newsize = strlen(orig) + 1;
@@ -497,6 +636,7 @@ extern "C" {
 			{ (const uint8_t*) "isSupported",NULL, &isSupported}
 			,{(const uint8_t*) "triggerGetInfo",NULL, &triggerGetInfo}
 			,{(const uint8_t*) "getInfo",NULL, &getInfo}
+			,{(const uint8_t*) "triggerGetInfoItem",NULL, &triggerGetInfoItem}
 			,{(const uint8_t*) "getVersion",NULL, &getLibVersion}
 		};
 

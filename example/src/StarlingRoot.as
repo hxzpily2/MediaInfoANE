@@ -2,6 +2,8 @@ package {
 
 	import com.tuarua.MediaInfo;
 	import com.tuarua.MediaInfoANE;
+	import com.tuarua.mediainfo.AudioStream;
+	import com.tuarua.mediainfo.TextStream;
 	import com.tuarua.mediainfo.VideoStream;
 	import com.tuarua.mediainfo.events.MediaInfoEvent;
 	
@@ -9,11 +11,6 @@ package {
 	import flash.filesystem.File;
 	import flash.text.TextFieldType;
 	
-	import events.InteractionEvent;
-	
-	import starling.animation.Transitions;
-	import starling.animation.Tween;
-	import starling.core.Starling;
 	import starling.display.BlendMode;
 	import starling.display.Image;
 	import starling.display.Quad;
@@ -22,17 +19,14 @@ package {
 	import starling.events.TouchEvent;
 	import starling.events.TouchPhase;
 	import starling.text.TextField;
-	import starling.textures.Texture;
 	import starling.utils.HAlign;
 	import starling.utils.VAlign;
 	
 	import utils.TextUtils;
 	import utils.TimeUtils;
 	
-	import views.forms.Input;
 	import views.SrollableContent;
-	import com.tuarua.mediainfo.AudioStream;
-	import com.tuarua.mediainfo.TextStream;
+	import views.forms.Input;
 
 	public class StarlingRoot extends Sprite {
 		private var filePathInput:Input;
@@ -55,9 +49,10 @@ package {
 			selectedFile.addEventListener(Event.SELECT, selectFile);
 			mediaInfoANE = new MediaInfoANE();
 			mediaInfoANE.addEventListener(MediaInfoEvent.ON_FILE_INFO,onFileInfo);
-			
+			mediaInfoANE.addEventListener(MediaInfoEvent.ON_FILE_INFO_ITEM,onFileInfoItem);
 			trace("is media info supported",mediaInfoANE.isSupported());
 			trace("GetVersion",mediaInfoANE.getVersion());
+			
 			
 			filePathInput = new Input(350,"");
 			filePathInput.type = TextFieldType.DYNAMIC;
@@ -78,12 +73,10 @@ package {
 			addChild(bg);
 			addChild(holder);
 			
-			infoList = new SrollableContent(540,540,txtHolder);
+			infoList = new SrollableContent(540,610,txtHolder);
 			infoList.x = 50;
-			infoList.y = 100;
+			infoList.y = 80;
 			addChild(infoList);
-			
-			
 		}
 		
 		private function createTextField(text:String,indent:int = 0,y:int=0):TextField{
@@ -98,11 +91,13 @@ package {
 			return txt;
 		}
 		
-	
 		protected function selectFile(event:Event):void {
 			filePathInput.text = selectedFile.nativePath;
 			filePathInput.unfreeze();
 			filePathInput.visible = true;
+			//get single item
+			mediaInfoANE.getInfoItem(selectedFile.nativePath,"General","Format");
+			//get pre-defined list
 			mediaInfoANE.getInfo(selectedFile.nativePath);
 		}
 		private function onInputTouch(event:TouchEvent):void {
@@ -110,6 +105,9 @@ package {
 			var touch:Touch = event.getTouch(chooseFileIn, TouchPhase.ENDED);
 			if(touch && touch.phase == TouchPhase.ENDED)
 				selectedFile.browseForOpen("Select video file...");
+		}
+		protected function onFileInfoItem(event:MediaInfoEvent):void {
+			trace("result has come back of single item",event.params.data)
 		}
 		protected function onFileInfo(event:MediaInfoEvent):void {
 			var mediaInfo:MediaInfo = event.params.data as MediaInfo;
@@ -217,7 +215,7 @@ package {
 				}
 				if(v.aspectRatio > 0){
 					cnt++;
-					txtHolder.addChild(createTextField("Aspect ratio : "+v.aspectRatio,2,cnt*20));
+					txtHolder.addChild(createTextField("Aspect ratio : "+v.aspectRatioAsString,2,cnt*20));
 				}
 				if(v.framerateMode){
 					cnt++;
@@ -384,8 +382,6 @@ package {
 			
 		}
 		public function acceptFilePath(filePath:String):void {
-			trace("acceptFilePath");
-			trace(filePath);
 			filePathInput.text = filePath;
 			filePathInput.unfreeze();
 			filePathInput.visible = true;
