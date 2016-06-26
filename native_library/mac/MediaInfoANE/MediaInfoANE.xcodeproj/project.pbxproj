@@ -12,9 +12,7 @@
 		CE8468AD1D1DED91000FAFAB /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE8468AC1D1DED91000FAFAB /* Cocoa.framework */; };
 		CE8468B11D1DEF92000FAFAB /* MediaInfoANE.h in Headers */ = {isa = PBXBuildFile; fileRef = CE8468B01D1DEF92000FAFAB /* MediaInfoANE.h */; };
 		CE8468B61D1DF04E000FAFAB /* ANEhelper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CE8468B21D1DF04E000FAFAB /* ANEhelper.cpp */; };
-		CE8468B71D1DF04E000FAFAB /* Constants.hpp in Headers */ = {isa = PBXBuildFile; fileRef = CE8468B31D1DF04E000FAFAB /* Constants.hpp */; };
 		CE8468B81D1DF04E000FAFAB /* MediaInfoANE.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CE8468B41D1DF04E000FAFAB /* MediaInfoANE.cpp */; };
-		CE8468BC1D1DF0A9000FAFAB /* json.hpp in Headers */ = {isa = PBXBuildFile; fileRef = CE8468BB1D1DF0A9000FAFAB /* json.hpp */; };
 		CE8468BE1D1DF275000FAFAB /* libmediainfo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CE8468BD1D1DF275000FAFAB /* libmediainfo.a */; };
 /* End PBXBuildFile section */
 
@@ -24,15 +22,13 @@
 		CE8468A41D1DED87000FAFAB /* Adobe AIR_64 */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "Adobe AIR_64"; path = "/Applications/Adobe Flash Builder 4.7/sdks/4.6.0/runtimes/air/mac/Adobe AIR.framework/Versions/1.0/Adobe AIR_64"; sourceTree = "<absolute>"; };
 		CE8468A51D1DED87000FAFAB /* Adobe AIR */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "Adobe AIR"; path = "/Applications/Adobe Flash Builder 4.7/sdks/4.6.0/runtimes/air/mac/Adobe AIR.framework/Versions/1.0/Adobe AIR"; sourceTree = "<absolute>"; };
 		CE8468A61D1DED87000FAFAB /* libboost_thread-mt.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libboost_thread-mt.a"; path = "/Users/User/flash/BitTorrentANE/native_library/mac/BitTorrentANE/../../../../../../../usr/local/lib/libboost_thread-mt.a"; sourceTree = "<absolute>"; };
-		CE8468A71D1DED87000FAFAB /* libboost_system-mt.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libboost_system-mt.a"; path = "/Users/User/flash/BitTorrentANE/native_library/mac/BitTorrentANE/../../../../../../../usr/local/lib/libboost_system-mt.a"; sourceTree = "<absolute>"; };
 		CE8468AC1D1DED91000FAFAB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.11.sdk/System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
 		CE8468AE1D1DEEDD000FAFAB /* MediaInfoANE_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MediaInfoANE_Prefix.pch; sourceTree = "<group>"; };
 		CE8468B01D1DEF92000FAFAB /* MediaInfoANE.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MediaInfoANE.h; path = ../../../include/mac/MediaInfoANE.h; sourceTree = "<group>"; };
 		CE8468B21D1DF04E000FAFAB /* ANEhelper.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ANEhelper.cpp; path = ../../../source/ANEhelper.cpp; sourceTree = "<group>"; };
-		CE8468B31D1DF04E000FAFAB /* Constants.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Constants.hpp; path = ../../../source/Constants.hpp; sourceTree = "<group>"; };
 		CE8468B41D1DF04E000FAFAB /* MediaInfoANE.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MediaInfoANE.cpp; path = ../../../source/MediaInfoANE.cpp; sourceTree = "<group>"; };
-		CE8468BB1D1DF0A9000FAFAB /* json.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = json.hpp; path = ../../../include/json.hpp; sourceTree = "<group>"; };
 		CE8468BD1D1DF275000FAFAB /* libmediainfo.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libmediainfo.a; path = ../../../../../../../usr/local/lib/libmediainfo.a; sourceTree = "<group>"; };
+		CEED29B31D2076C100A61A0E /* libboost_system-mt.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libboost_system-mt.a"; path = "../../../../../../../usr/local/lib/libboost_system-mt.a"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,7 +52,7 @@
 				CE8468A41D1DED87000FAFAB /* Adobe AIR_64 */,
 				CE8468A51D1DED87000FAFAB /* Adobe AIR */,
 				CE8468A61D1DED87000FAFAB /* libboost_thread-mt.a */,
-				CE8468A71D1DED87000FAFAB /* libboost_system-mt.a */,
+				CEED29B31D2076C100A61A0E /* libboost_system-mt.a */,
 				CE8468BD1D1DF275000FAFAB /* libmediainfo.a */,
 				CE8468AC1D1DED91000FAFAB /* Cocoa.framework */,
 				CE84689B1D1DED3F000FAFAB /* MediaInfoANE */,
@@ -75,9 +71,7 @@
 		CE84689B1D1DED3F000FAFAB /* MediaInfoANE */ = {
 			isa = PBXGroup;
 			children = (
-				CE8468BB1D1DF0A9000FAFAB /* json.hpp */,
 				CE8468B21D1DF04E000FAFAB /* ANEhelper.cpp */,
-				CE8468B31D1DF04E000FAFAB /* Constants.hpp */,
 				CE8468B41D1DF04E000FAFAB /* MediaInfoANE.cpp */,
 				CE8468B01D1DEF92000FAFAB /* MediaInfoANE.h */,
 				CE84689E1D1DED3F000FAFAB /* Info.plist */,
@@ -93,8 +87,6 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CE8468BC1D1DF0A9000FAFAB /* json.hpp in Headers */,
-				CE8468B71D1DF04E000FAFAB /* Constants.hpp in Headers */,
 				CE8468B11D1DEF92000FAFAB /* MediaInfoANE.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -174,7 +166,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = ../../../native_extension/ane/build_osx.sh;
+			shellScript = ../../../native_extension/ane/build_multi.sh;
 		};
 /* End PBXShellScriptBuildPhase section */
 

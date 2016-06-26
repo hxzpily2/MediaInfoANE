@@ -42,8 +42,8 @@ cp "$pathtome/library.swf" "$pathtome/platforms/win/debug"
 echo "Copying native libraries into place."
 cp -R -L "$pathtome/../../native_library/mac/$PROJECT_NAME/Build/Products/Release/$PROJECT_NAME.framework" "$pathtome/platforms/mac/release"
 cp -R -L "$pathtome/../../native_library/mac/$PROJECT_NAME/Build/Products/Debug/$PROJECT_NAME.framework" "$pathtome/platforms/mac/debug"
-cp -R -L "$pathtome/../../native_library/win/$PROJECT_NAME/Release/$PROJECT_NAME.dll" "$pathtome/platforms/win/release"
-cp -R -L "$pathtome/../../native_library/win/$PROJECT_NAME/Release/$PROJECT_NAME.dll" "$pathtome/platforms/win/debug"
+cp -R -L "$pathtome/dll/release/$PROJECT_NAME.dll" "$pathtome/platforms/win/release"
+cp -R -L "$pathtome/dll/debug/$PROJECT_NAME.dll" "$pathtome/platforms/win/debug"
 
 #Run the build command.
 echo "Building Release."
