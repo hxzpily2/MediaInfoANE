@@ -3,6 +3,7 @@
 	<name>MediaInfoANESample</name>
 	<comment></comment>
 	<projects>
+		<project>MediaInfoANE</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>

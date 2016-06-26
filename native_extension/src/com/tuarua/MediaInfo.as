@@ -11,6 +11,7 @@ package com.tuarua {
 		public var fileSize:Number = -1.0;
 		public var duration:uint;
 		public var bitrate:uint;
+		public var bitrateMode:String;
 		public var encoder:String;
 		public var videoStreams:Vector.<VideoStream>;
 		public var audioStreams:Vector.<AudioStream>;

@@ -10,6 +10,7 @@ package com.tuarua.mediainfo {
 		public var duration:uint;
 		public var bitrate:uint;
 		public var bitrateMode:String;
+		public var maxBitrate:uint;
 		public var size:Number;
 		public var channels:uint;
 		public var channelLayout:String;

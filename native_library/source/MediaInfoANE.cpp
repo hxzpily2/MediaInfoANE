@@ -43,12 +43,9 @@ bool isSupportedInOS = true;
 #endif
 
 #include "ANEhelper.h"
-
-//#include "ZenLib/Ztring.h" //Note : I need it for universal atoi, but you have not to use it for be able to use MediaInfoLib
 #include "MediaInfo/MediaInfo.h"
 
 using namespace MediaInfoLib;
-//using namespace ZenLib;
 
 unsigned int numAvailableThreads = boost::thread::hardware_concurrency();
 boost::thread threads[1];
@@ -64,8 +61,6 @@ std::string wcharToString(const wchar_t* arg) {
 	std::string str(ws.begin(), ws.end());
 	return str;
 }
-
-
 
 uint32_t wcharToUint32(const wchar_t* arg) {
 	using namespace std;
@@ -153,6 +148,7 @@ extern "C" {
 		std::string codecName;
 		uint32_t duration;
 		uint32_t bitrate;
+		uint32_t maxBitrate;
 		std::string bitrateMode;
 		uint32_t width;
 		uint32_t height;
@@ -175,6 +171,7 @@ extern "C" {
 		uint32_t id;
 		uint32_t alternateGroup;
 		uint32_t bitrate;
+		uint32_t maxBitrate;
 		std::string bitrateMode;
 		std::string channelLayout;
 		std::string compressionMode;
@@ -213,6 +210,7 @@ extern "C" {
 		double fileSize;
 		uint32_t duration;
 		uint32_t bitrate;
+		std::string bitrateMode;
 		std::vector<VideoStream> videoStreams;
 		std::vector<AudioStream> audioStreams;
 		std::vector<TextStream> textStreams;
@@ -245,7 +243,9 @@ extern "C" {
 		fileContext.encoder = wcharToString(MI.Get(Stream_General, 0, __T("Encoded_Application"), Info_Text, Info_Name).c_str());
 		fileContext.fileSize = wcharToDouble(MI.Get(Stream_General, 0, __T("FileSize"), Info_Text, Info_Name).c_str());
 		fileContext.duration = (uint32_t)round(wcharToUint32(MI.Get(Stream_General, 0, __T("Duration"), Info_Text, Info_Name).c_str()) / 1000);
-		fileContext.bitrate = wcharToUint32(MI.Get(Stream_General, 0, __T("BitRate"), Info_Text, Info_Name).c_str());
+		fileContext.bitrate = wcharToUint32(MI.Get(Stream_General, 0, __T("OverallBitRate"), Info_Text, Info_Name).c_str());
+		fileContext.bitrateMode = wcharToString(MI.Get(Stream_General, 0, __T("OverallBitRate_Mode/String"), Info_Text, Info_Name).c_str());
+
 		fileContext.videoStreams.clear();
 		uint32_t numVideoStreams = boost::numeric_cast<uint32_t>(MI.Count_Get(Stream_Video, -1));
 		unsigned int i;
@@ -256,13 +256,14 @@ extern "C" {
 			videoStream.bitDepth = wcharToUint32(MI.Get(Stream_Video, i, __T("BitDepth"), Info_Text, Info_Name).c_str());
 			videoStream.bitrate = wcharToUint32(MI.Get(Stream_Video, i, __T("BitRate"), Info_Text, Info_Name).c_str());
 			videoStream.bitrateMode = wcharToString(MI.Get(Stream_Video, i, __T("BitRate_Mode/String"), Info_Text, Info_Name).c_str());
+			videoStream.maxBitrate = wcharToUint32(MI.Get(Stream_Video, i, __T("BitRate_Maximum"), Info_Text, Info_Name).c_str());
 			videoStream.bits = wcharToDouble(MI.Get(Stream_Video, i, __T("Bits-(Pixel*Frame)"), Info_Text, Info_Name).c_str());
 			videoStream.cabac = wcharToString(MI.Get(Stream_Video, i, __T("Codec_Settings_CABAC"), Info_Text, Info_Name).c_str());
 			videoStream.chroma = wcharToString(MI.Get(Stream_Video, i, __T("ChromaSubsampling"), Info_Text, Info_Name).c_str());
 			videoStream.codecId = wcharToString(MI.Get(Stream_Video, i, __T("CodecID"), Info_Text, Info_Name).c_str());
 			videoStream.codecName = wcharToString(MI.Get(Stream_Video, i, __T("Codec/Info"), Info_Text, Info_Name).c_str());
 			videoStream.colorSpace = wcharToString(MI.Get(Stream_Video, i, __T("ColorSpace"), Info_Text, Info_Name).c_str());
-			videoStream.duration = (uint32_t)round(wcharToUint32(MI.Get(Stream_Audio, i, __T("Duration"), Info_Text, Info_Name).c_str()) / 1000);
+			videoStream.duration = (uint32_t)round(wcharToUint32(MI.Get(Stream_Video, i, __T("Duration"), Info_Text, Info_Name).c_str()) / 1000);
 			videoStream.encoder = wcharToString(MI.Get(Stream_Video, i, __T("Encoded_Library"), Info_Text, Info_Name).c_str());
 			videoStream.encoderSettings = wcharToString(MI.Get(Stream_Video, i, __T("Encoded_Library_Settings"), Info_Text, Info_Name).c_str());
 			videoStream.format = wcharToString(MI.Get(Stream_Video, i, __T("Format"), Info_Text, Info_Name).c_str());
@@ -287,12 +288,13 @@ extern "C" {
 			audioStream.alternateGroup = wcharToUint32(MI.Get(Stream_Audio, i, __T("AlternateGroup"), Info_Text, Info_Name).c_str());
 			audioStream.bitrate = wcharToUint32(MI.Get(Stream_Audio, i, __T("BitRate"), Info_Text, Info_Name).c_str());;
 			audioStream.bitrateMode = wcharToString(MI.Get(Stream_Audio, i, __T("BitRate_Mode/String"), Info_Text, Info_Name).c_str());
+			audioStream.maxBitrate = wcharToUint32(MI.Get(Stream_Audio, i, __T("BitRate_Maximum"), Info_Text, Info_Name).c_str());
 			audioStream.channelLayout = wcharToString(MI.Get(Stream_Audio, i, __T("ChannelLayout"), Info_Text, Info_Name).c_str());
 			audioStream.channels = wcharToUint32(MI.Get(Stream_Audio, i, __T("Channel(s)"), Info_Text, Info_Name).c_str());
 			audioStream.codecId = wcharToString(MI.Get(Stream_Audio, i, __T("CodecID"), Info_Text, Info_Name).c_str());
 			audioStream.codecName = wcharToString(MI.Get(Stream_Audio, i, __T("Codec/Info"), Info_Text, Info_Name).c_str());
 			audioStream.compressionMode = wcharToString(MI.Get(Stream_Audio, i, __T("Compression_Mode"), Info_Text, Info_Name).c_str());
-			audioStream.duration = wcharToUint32(MI.Get(Stream_Audio, i, __T("Duration"), Info_Text, Info_Name).c_str());
+			audioStream.duration = (uint32_t)round(wcharToUint32(MI.Get(Stream_Audio, i, __T("Duration"), Info_Text, Info_Name).c_str()) / 1000);
 			audioStream.format = wcharToString(MI.Get(Stream_Audio, i, __T("Format"), Info_Text, Info_Name).c_str());
 			audioStream.formatName = wcharToString(MI.Get(Stream_Audio, i, __T("Format/Info"), Info_Text, Info_Name).c_str());
 			audioStream.isDefault = wcharToString(MI.Get(Stream_Audio, i, __T("Default"), Info_Text, Info_Name).c_str());
@@ -344,6 +346,8 @@ extern "C" {
 			FRESetObjectProperty(ret, (const uint8_t*)"duration", getFREObjectFromUint32(fileContext.duration), NULL);
 		if (fileContext.bitrate > 0)
 			FRESetObjectProperty(ret, (const uint8_t*)"bitrate", getFREObjectFromUint32(fileContext.bitrate), NULL);
+		if (!fileContext.bitrateMode.empty())
+			FRESetObjectProperty(ret, (const uint8_t*)"bitrateMode", getFREObjectFromString(fileContext.bitrateMode), NULL);
 
 		int cnt = 0;
 		FREObject vecVideoStreams = NULL;
@@ -356,6 +360,7 @@ extern "C" {
 			FRESetObjectProperty(objStream, (const uint8_t*)"aspectRatio", getFREObjectFromDouble(i->aspectRatio), NULL);
 			FRESetObjectProperty(objStream, (const uint8_t*)"bitDepth", getFREObjectFromUint32(i->bitDepth), NULL);
 			FRESetObjectProperty(objStream, (const uint8_t*)"bitrate", getFREObjectFromUint32(i->bitrate), NULL);
+			FRESetObjectProperty(objStream, (const uint8_t*)"maxBitrate", getFREObjectFromUint32(i->maxBitrate), NULL);
 			if (!i->bitrateMode.empty())
 				FRESetObjectProperty(objStream, (const uint8_t*)"bitrateMode", getFREObjectFromString(i->bitrateMode), NULL);
 			FRESetObjectProperty(objStream, (const uint8_t*)"bits", getFREObjectFromDouble(i->bits), NULL);
@@ -404,6 +409,7 @@ extern "C" {
 			FRESetObjectProperty(objStream, (const uint8_t*)"id", getFREObjectFromUint32(i->id), NULL);
 				FRESetObjectProperty(objStream, (const uint8_t*)"alternateGroup", getFREObjectFromUint32(i->alternateGroup), NULL);
 			FRESetObjectProperty(objStream, (const uint8_t*)"bitrate", getFREObjectFromUint32(i->bitrate), NULL);
+			FRESetObjectProperty(objStream, (const uint8_t*)"maxBitrate", getFREObjectFromUint32(i->maxBitrate), NULL);
 			if (!i->bitrateMode.empty())
 				FRESetObjectProperty(objStream, (const uint8_t*)"bitrateMode", getFREObjectFromString(i->bitrateMode), NULL);
 			if (!i->channelLayout.empty())

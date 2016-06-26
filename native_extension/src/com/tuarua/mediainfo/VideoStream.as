@@ -6,6 +6,7 @@ package com.tuarua.mediainfo {
 		public var bitDepth:uint;
 		public var bitrate:uint;
 		public var bitrateMode:String;
+		public var maxBitrate:uint;
 		public var bits:Number;
 		public var cabac:Boolean;
 		public var chroma:String;

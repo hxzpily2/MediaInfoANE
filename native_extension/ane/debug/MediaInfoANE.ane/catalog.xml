@@ -10,7 +10,7 @@
     </features>
     <libraries>
         <library path="library.swf">
-            <script name="com/tuarua/MediaInfo" mod="1466461825771">
+            <script name="com/tuarua/MediaInfo" mod="1466895648597">
                 <def id="com.tuarua:MediaInfo"/>
                 <dep id="Number" type="s"/>
                 <dep id="Object" type="i"/>
@@ -34,7 +34,7 @@
                 <dep id="flash.external:ExtensionContext" type="s"/>
                 <dep id="trace" type="e"/>
             </script>
-            <script name="com/tuarua/mediainfo/AudioStream" mod="1466461716159">
+            <script name="com/tuarua/mediainfo/AudioStream" mod="1466900955907">
                 <def id="com.tuarua.mediainfo:AudioStream"/>
                 <dep id="Boolean" type="s"/>
                 <dep id="Number" type="s"/>
@@ -49,7 +49,7 @@
                 <dep id="String" type="s"/>
                 <dep id="uint" type="s"/>
             </script>
-            <script name="com/tuarua/mediainfo/VideoStream" mod="1466115358901">
+            <script name="com/tuarua/mediainfo/VideoStream" mod="1466900948187">
                 <def id="com.tuarua.mediainfo:VideoStream"/>
                 <dep id="Boolean" type="s"/>
                 <dep id="Number" type="s"/>
@@ -65,7 +65,7 @@
                 <dep id="flash.events:Event" type="i"/>
             </script>
             <digests>
-                <digest type="SHA-256" signed="false" value="07e4f603673ab9b404b5158b7c4280779c8171d154564cd7e3be7893dec2893f"/>
+                <digest type="SHA-256" signed="false" value="adeb98a7620be805478c0d5aa314667e5b037785552fd46d2da143724f312509"/>
             </digests>
         </library>
     </libraries>

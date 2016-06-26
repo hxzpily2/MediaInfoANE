@@ -16,7 +16,7 @@ package {
 	import starling.core.Starling;
 	import starling.events.Event;
 	
-	[SWF(width = "1280", height = "720", frameRate = "60", backgroundColor = "#121314")]
+	[SWF(width = "640", height = "720", frameRate = "60", backgroundColor = "#121314")]
 	public class MediaInfoANESample extends Sprite {
 		public var mStarling:Starling;
 		private var btn:Sprite = new Sprite();
@@ -29,7 +29,7 @@ package {
 			addEventListener(flash.events.Event.ADDED_TO_STAGE, onStaged);
 			
 			hitArea.graphics.beginFill(0x000FFF,0);
-			hitArea.graphics.drawRect(0,620,1280,100);
+			hitArea.graphics.drawRect(0,620,640,100);
 			hitArea.graphics.endFill();
 			
 			stage.align = StageAlign.TOP_LEFT;

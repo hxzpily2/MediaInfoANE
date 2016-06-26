@@ -6,7 +6,7 @@
         <key>texturePackerVersion</key>
         <string>4.2.2</string>
         <key>fileName</key>
-        <string>D:/dev/flash/AVANE/example/sprite-sheet/atlas.tps</string>
+        <string>D:/dev/flash/MediaInfoANE/example/sprite-sheet/atlas.tps</string>
         <key>autoSDSettings</key>
         <array>
             <struct type="AutoSDSettings">
@@ -189,22 +189,6 @@
         <key>individualSpriteSettings</key>
         <map type="IndividualSpriteSettingsMap">
             <key type="filename">../../../Nacho_Assets/fonts/fira-sans-semi-bold-13.png</key>
-            <key type="filename">../../../Nacho_Assets/sprite-sheets/pngs/client/add-magnet.png</key>
-            <key type="filename">../../../Nacho_Assets/sprite-sheets/pngs/client/add-torrent.png</key>
-            <key type="filename">../../../Nacho_Assets/sprite-sheets/pngs/client/cancel-button.png</key>
-            <key type="filename">../../../Nacho_Assets/sprite-sheets/pngs/client/cancel-encode-button.png</key>
-            <key type="filename">../../../Nacho_Assets/sprite-sheets/pngs/client/close-icon.png</key>
-            <key type="filename">../../../Nacho_Assets/sprite-sheets/pngs/client/create-torrent.png</key>
-            <key type="filename">../../../Nacho_Assets/sprite-sheets/pngs/client/encode-button.png</key>
-            <key type="filename">../../../Nacho_Assets/sprite-sheets/pngs/client/information-button.png</key>
-            <key type="filename">../../../Nacho_Assets/sprite-sheets/pngs/client/ok-button.png</key>
-            <key type="filename">../../../Nacho_Assets/sprite-sheets/pngs/client/popmenu-bg.png</key>
-            <key type="filename">../../../Nacho_Assets/sprite-sheets/pngs/client/power-off.png</key>
-            <key type="filename">../../../Nacho_Assets/sprite-sheets/pngs/client/power-on.png</key>
-            <key type="filename">../../../Nacho_Assets/sprite-sheets/pngs/client/preview-button.png</key>
-            <key type="filename">../../../Nacho_Assets/sprite-sheets/pngs/client/right-click-bg.png</key>
-            <key type="filename">../../../Nacho_Assets/sprite-sheets/pngs/client/settings-cog.png</key>
-            <key type="filename">../../../Nacho_Assets/sprite-sheets/pngs/client/tree-icon.png</key>
             <key type="filename">../../../Nacho_Assets/sprite-sheets/pngs/forms/checkbox-off.png</key>
             <key type="filename">../../../Nacho_Assets/sprite-sheets/pngs/forms/checkbox-on.png</key>
             <key type="filename">../../../Nacho_Assets/sprite-sheets/pngs/forms/choose-bg.png</key>
@@ -219,15 +203,7 @@
             <key type="filename">../../../Nacho_Assets/sprite-sheets/pngs/forms/stepper-arrow.png</key>
             <key type="filename">../../../Nacho_Assets/sprite-sheets/pngs/forms/stepper-bg.png</key>
             <key type="filename">../../../Nacho_Assets/sprite-sheets/pngs/forms/stepper-down.png</key>
-            <key type="filename">../../../Nacho_Assets/sprite-sheets/pngs/misc/arrow-up.png</key>
-            <key type="filename">../../../Nacho_Assets/sprite-sheets/pngs/misc/loading-piece.png</key>
             <key type="filename">../../../Nacho_Assets/sprite-sheets/pngs/misc/placeholder.png</key>
-            <key type="filename">../../../Nacho_Assets/sprite-sheets/pngs/semi-circle-bg.png</key>
-            <key type="filename">../../../Nacho_Assets/sprite-sheets/pngs/semi-circle-bg2.png</key>
-            <key type="filename">../../../Nacho_Assets/sprite-sheets/pngs/semi-circle-cap.png</key>
-            <key type="filename">../../../Nacho_Assets/sprite-sheets/pngs/semi-circle.png</key>
-            <key type="filename">../../../Nacho_Assets/sprite-sheets/pngs/settings/file.png</key>
-            <key type="filename">../../../Nacho_Assets/sprite-sheets/pngs/settings/folder-button-hover.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
@@ -236,17 +212,8 @@
         <key>fileList</key>
         <array>
             <filename>../../../Nacho_Assets/sprite-sheets/pngs/misc/placeholder.png</filename>
-            <filename>../../../Nacho_Assets/sprite-sheets/pngs/settings/file.png</filename>
-            <filename>../../../Nacho_Assets/sprite-sheets/pngs/settings/folder-button-hover.png</filename>
             <filename>../../../Nacho_Assets/sprite-sheets/pngs/forms</filename>
             <filename>../../../Nacho_Assets/fonts/fira-sans-semi-bold-13.png</filename>
-            <filename>../../../Nacho_Assets/sprite-sheets/pngs/client</filename>
-            <filename>../../../Nacho_Assets/sprite-sheets/pngs/semi-circle.png</filename>
-            <filename>../../../Nacho_Assets/sprite-sheets/pngs/semi-circle-bg.png</filename>
-            <filename>../../../Nacho_Assets/sprite-sheets/pngs/semi-circle-bg2.png</filename>
-            <filename>../../../Nacho_Assets/sprite-sheets/pngs/misc/arrow-up.png</filename>
-            <filename>../../../Nacho_Assets/sprite-sheets/pngs/misc/loading-piece.png</filename>
-            <filename>../../../Nacho_Assets/sprite-sheets/pngs/semi-circle-cap.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>
